@@ -1,0 +1,25 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Go build outputs
+bin/
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Modules / vendor
+vendor/
+
+# Coverage
+*.coverprofile
+coverage/
+
+# Logs
+*.log
+*.mp4
