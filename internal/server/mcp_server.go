@@ -8,6 +8,7 @@ import (
 
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
+	"video-download-mcp/internal/prompt"
 	"video-download-mcp/internal/tools"
 )
 
@@ -28,6 +29,9 @@ func NewMCPServer() *MCPServer {
 
 	// Register tools
 	tools.RegisterTools(srv)
+
+	// Register prompts
+	prompt.RegisterPrompts(srv)
 
 	return &MCPServer{server: srv}
 }
