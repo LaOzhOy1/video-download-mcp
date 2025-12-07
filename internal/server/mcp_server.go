@@ -1,15 +1,16 @@
 package server
 
 import (
-	"context"
-	"fmt"
-	"log"
-	"time"
+    "context"
+    "fmt"
+    "log"
+    "time"
 
-	mcpserver "github.com/mark3labs/mcp-go/server"
+    mcpserver "github.com/mark3labs/mcp-go/server"
 
-	"video-download-mcp/internal/prompt"
-	"video-download-mcp/internal/tools"
+    "video-download-mcp/internal/resources"
+    "video-download-mcp/internal/prompt"
+    "video-download-mcp/internal/tools"
 )
 
 // MCPServer wraps the underlying mcp-go server instance and tool registration
@@ -30,8 +31,11 @@ func NewMCPServer() *MCPServer {
 	// Register tools
 	tools.RegisterTools(srv)
 
-	// Register prompts
-	prompt.RegisterPrompts(srv)
+    // Register prompts
+    prompt.RegisterPrompts(srv)
+
+    // Register resources
+    resources.RegisterResources(srv)
 
 	return &MCPServer{server: srv}
 }

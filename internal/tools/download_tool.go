@@ -8,6 +8,7 @@ import (
 	"github.com/mark3labs/mcp-go/mcp"
 	mcpserver "github.com/mark3labs/mcp-go/server"
 
+	"video-download-mcp/internal/storage"
 	"video-download-mcp/internal/usecase"
 )
 
@@ -44,11 +45,14 @@ func handleDownloadVideoFile(ctx context.Context, req mcp.CallToolRequest) (*mcp
 	// Sanitize and compute target path
 	targetPath := filepath.Join(saveDir, fileName)
 
-	// Perform download via use case
-	savedPath, err := usecase.DownloadVideo(ctx, url, targetPath)
-	if err != nil {
-		return mcp.NewToolResultError(fmt.Sprintf("Failed to download video: %v", err)), nil
+	// Perform download via use case (with progress callback placeholder)
+	savedPath, derr := usecase.DownloadVideoWithProgress(ctx, url, targetPath, func(written int64, total int64) {})
+	if derr != nil {
+		return mcp.NewToolResultError(fmt.Sprintf("Failed to download video: %v", derr)), nil
 	}
+
+	// Record successfully downloaded path
+	_ = storage.RecordDownload(savedPath)
 
 	// Return absolute path
 	return mcp.NewToolResultText(savedPath), nil
